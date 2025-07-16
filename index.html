@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estúdio Literário</title>
+  <style>
+:root {
+  --font-base: 'Poppins', sans-serif;
+  --color-bg: #f0f4f3;
+  --color-dark: #1b355e;
+  --color-accent: #cc3224;
+  --radius: 1rem;
+  --transition: 0.3s ease;
+}
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+textarea {
+  resize: none;
+}
+body {
+  background: var(--color-bg);
+  font-family: var(--font-base);
+  color: var(--color-dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Navegação fixa */
+nav {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+}
+nav .logo {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+nav .cta {
+  background: var(--color-accent);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+}
+
+/* Container principal com scroll‑snap */
+main {
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: 4rem; /* compensa nav fixa */
+}
+
+/* Seções com snap e altura de tela cheia */
+header.hero,
+section {
+  position: relative;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100vh;
+  margin-top: 0;
+}
+
+/* Data‑tabs “fichário” coladas embaixo da seção */
+header.hero::after,
+section::after {
+  content: attr(data-tab);
+  position: absolute;
+  bottom: -1.5rem;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  background: var(--color-accent);
+  color: #fff;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius) var(--radius) 0 0;
+  font-size: 0.875rem;
+  z-index: 10;
+}
+
+/* Desativa snap nos itens internos */
+.service-card,
+.profile-card,
+.contact-form > * {
+  scroll-snap-align: none;
+}
+
+/* ===== HERO ===== */
+header.hero {
+  background: url('images/hero3.webp') center/cover no-repeat;
+    /* força a largura total */
+  width: 100%;
+  /* define uma altura fixa (ou ajuste para o valor que preferir) */
+  height: 600px;
+  /* redimensiona a imagem para preencher toda a largura, mantendo a proporção */
+  background-size: 100% auto;
+  /* centraliza verticalmente o topo da imagem */
+  background-position: top center;
+
+}
+.hero__text {
+  position: absolute;
+  bottom: 15%;
+  left: 5%;
+  max-width: 500px;
+  z-index: 2;
+  background: none;        /* remove qualquer fundo cinza */
+}
+.hero__text h1,
+.hero__text p,
+.hero__text button {
+  color: #fff;
+}
+/* Botão “bonitinho” no hero */
+.btn-primary {
+  background: var(--color-accent);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+/* Decorações laterais do hero */
+header.hero::before {
+  content: '';
+  position: absolute;
+  top: 5%; left: -5%;
+  width: 220px; height: 220px;
+  opacity: 0.4;
+  z-index: 0;
+}
+.hero__text::before {
+  content: '';
+  position: absolute;
+  bottom: 5%; right: -5%;
+  width: 240px; height: 240px;
+  opacity: 0.4;
+  z-index: 1;
+}
+
+/* ===== SERVIÇOS ===== */
+.services {
+  background: var(--color-bg);
+  padding: 6rem 2rem;
+  position: relative;
+}
+.services::before {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 180px;
+  opacity: 0.2;
+  z-index: 0;
+}
+
+/* Navegação do carrossel */
+.services .nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 2;
+}
+.services .nav-btn.prev { left: 1rem; }
+.services .nav-btn.next { right: 1rem; }
+
+/* Container do carrossel */
+.services__grid {
+  position: relative;
+  width: 100%;
+  height: 360px;      /* ajuste conforme a altura dos cards */
+  overflow: hidden;
+  margin: 2rem auto;  /* centraliza */
+  z-index: 1;
+}
+
+/* Cards */
+.service-card {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 280px;       /* largura fixa */
+  transform: translate(-50%, -50%) scale(0.8);
+  opacity: 0.5;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 2rem 1rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  text-align: center;
+}
+.service-card img {
+  width: 64px;
+  margin: 0 auto 1rem;
+  display: block;
+}
+.service-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-dark);
+}
+.service-card p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.4;
+}
+
+/* Posicionamento do carrossel */
+/* var(--card-offset) deve ser ≥ largura do card + gap */
+:root {
+  --card-offset: 320px;
+}
+.service-card.prev {
+  transform: translate(calc(-50% - var(--card-offset)), -50%) scale(0.9);
+  opacity: 0.6;
+  z-index: 1;
+}
+.service-card.active {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  z-index: 2;
+}
+.service-card.next {
+  transform: translate(calc(-50% + var(--card-offset)), -50%) scale(0.9);
+  opacity: 0.6;
+  z-index: 1;
+}
+
+
+/* ===== QUEM SOMOS ===== */
+.about {
+  background: #fff;
+  padding: 6rem 2rem;
+  z-index: 1;
+}
+.about h2 {
+  text-align: center;
+  font-size: 2.75rem;
+  margin-bottom: 2rem;
+}
+.about p {
+  max-width: 800px;
+  margin: 0 auto 3rem;
+  text-align: center;
+  color: #555;
+  font-size: 1rem;
+}
+.profiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+.profile-card {
+  background: var(--color-bg);
+  padding: 2rem;
+  text-align: center;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform var(--transition);
+}
+.profile-card:hover {
+  transform: translateY(-5px);
+}
+.profile-card img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+.profile-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+.profile-card p {
+  font-size: 0.95rem;
+  color: #555;
+}
+/* ===== CONTATO ===== */
+.contact {
+  background: var(--color-bg);
+  padding: 6rem 2rem;
+  position: relative;
+}
+.contact::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 160px; height: 160px;
+  background: url('images/decoracao1.png') center/cover no-repeat;
+  opacity: 0.2;
+  z-index: 0;
+}
+.contact h2 {
+  text-align: center;
+  font-size: 2.75rem;
+  margin-bottom: 2rem;
+}
+/* Formulário em coluna única */
+.contact-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  z-index: 1;
+}
+.contact-form label {
+  display: flex;
+  flex-direction: column;
+}
+.contact-form input,
+.contact-form textarea,
+.contact-form select {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: var(--radius);
+}
+.contact-form button {
+  background: var(--color-accent);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  justify-self: end;
+  transition: opacity var(--transition);
+}
+.contact-form button:hover {
+  opacity: 0.8;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+/* Notificação estilo “toast” */
+#toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  background: var(--color-accent);
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+#toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 768px) {
+  .hero__text h1 {
+    font-size: 2.5rem;
+  }
+  .hero__text p {
+    font-size: 1rem;
+  }
+  .services__grid,
+  .profiles {
+    grid-template-columns: 1fr;
+  }
+  .contact-form {
+    grid-template-columns: 1fr;
+  }
+  .contact-form button {
+    grid-column: auto;
+  }
+}
+
+
+  </style>
+</head>
+<body>
+<main>
+  <!-- Navegação -->
+  <nav>
+    <div class="logo">Estúdio Literário</div>
+    <a href="#contact" class="cta">Envie seu projeto</a>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero" id="hero" data-tab="Serviços">
+    <div class="hero__text">
+      <h1>Um estúdio comprometido com a criação literária de qualidade</h1>
+      <p>Feito por escritores, para escritores. Conte sua história de forma inesquecível.</p>
+      <button class="btn-primary" onclick="document.getElementById('services').scrollIntoView({ behavior: 'smooth' });">
+        Conheça nossos serviços
+      </button>
+    </div>
+  </header>
+
+  <!-- Serviços -->
+  <section class="services" id="services" data-tab="Quem Somos">
+    <h2>Nossos Serviços</h2>
+
+    <!-- Botões de navegação -->
+  <button type="button" class="nav-btn prev" aria-label="Anterior">&lsaquo;</button>
+  <button type="button" class="nav-btn next" aria-label="Próximo">&rsaquo;</button>
+
+    <!-- Grid de cards -->
+    <div class="services__grid">
+      <div class="service-card">
+        <img src="images/icone-consultoria.webp" alt="Consultoria Literária">
+        <h3>Consultoria Literária</h3>
+        <p>Orientação estratégica sobre estrutura, estilo e roteiro para transformar seu manuscrito em uma obra impactante.</p>
+      </div>
+      <div class="service-card">
+        <img src="images/icone-ghostwriting.webp" alt="Ghostwriting">
+        <h3>Ghostwriting</h3>
+        <p>Escrita profissional sob medida: damos voz às suas ideias, criando textos originais e coesos.</p>
+      </div>
+      <div class="service-card">
+        <img src="images/icone-revisao-critica.webp" alt="Revisão Crítica">
+        <h3>Revisão Crítica</h3>
+        <p>Análise aprofundada de enredo, personagens e ritmo, com feedback construtivo para aprimorar seu texto.</p>
+      </div>
+      <div class="service-card">
+        <img src="images/icone-revisao-literaria.webp" alt="Revisão Literária">
+        <h3>Revisão Literária</h3>
+        <p>Correção gramatical e estilística, garantindo clareza, coesão e fluidez em cada frase.</p>
+      </div>
+      <div class="service-card">
+        <img src="images/icone-leitura-sensivel.webp" alt="Leitura Sensível">
+        <h3>Leitura Sensível</h3>
+        <p>Leitores beta dedicados fornecem insights sobre recepção emocional e cultural do seu texto.</p>
+      </div>
+      <div class="service-card">
+        <img src="images/icone-roteiro.webp" alt="Roteiros para Audiovisual/Games">
+        <h3>Roteiros para Audiovisual/Games</h3>
+        <p>Desenvolvemos roteiros envolventes e adaptáveis para cinema, TV, streaming e jogos digitais.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quem Somos -->
+  <section class="about" id="about" data-tab="Envie seu Projeto">
+    <h2>Quem Somos</h2>
+    <p>
+      Henrique Schlickmann e Lucas Miyazaki: mestres em letras e escritores com ampla experiência em literatura,
+      dramaturgia e roteiro. Unidos pela paixão de criar histórias que emocionam e inspiram.
+    </p>
+    <div class="profiles">
+      <div class="profile-card">
+        <img src="images/henrique.jpg" alt="Henrique Schlickmann">
+        <h3>Henrique Schlickmann</h3>
+        <p>Mestre em Escrita Criativa; 5 anos de consultoria literária; autor publicado.</p>
+      </div>
+      <div class="profile-card">
+        <img src="images/lucas.jpg" alt="Lucas Miyazaki">
+        <h3>Lucas Miyazaki</h3>
+        <p>Mestre em Letras; dramaturgo e roteirista; atuação em projetos teatrais e audiovisuais.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contato -->
+  <section class="contact" id="contact">
+    <h2>Envie seu Projeto</h2>
+    <form class="contact-form" id="projectForm">
+      <label>
+        Nome Completo
+        <input type="text" name="name" required />
+      </label>
+      <label>
+        E-mail de Contato
+        <input type="email" name="email" required />
+      </label>
+      <label>
+        Telefone
+        <input type="tel" name="phone" />
+      </label>
+      <label>
+        Título do Projeto
+        <input type="text" name="projectTitle" required />
+      </label>
+      <label>
+        Tipo de Serviço
+        <select name="serviceType" required>
+          <option value="">Selecione</option>
+          <option value="consultoria">Consultoria Literária</option>
+          <option value="ghostwriting">Ghostwriting</option>
+          <option value="revisaoCritica">Revisão Crítica</option>
+          <option value="revisaoLiteraria">Revisão Literária</option>
+          <option value="leituraSensivel">Leitura Sensível</option>
+          <option value="roteiro">Roteiros para Audiovisual/Games</option>
+        </select>
+      </label>
+      <label>
+        Gênero/Narrativa
+        <input type="text" name="genre" />
+      </label>
+      <label>
+        Resumo ou Sinopse do Projeto
+        <textarea name="description" rows="4" required></textarea>
+      </label>
+      <label>
+        Link ou Upload do Manuscrito (opcional)
+        <input type="url" name="manuscriptUrl" />
+      </label>
+      <label>
+        Observações Adicionais
+        <textarea name="notes" rows="3"></textarea>
+      </label>
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
+  <div id="toast"></div>
+
+  <!-- Footer -->
+  <footer>&copy; 2025 Estúdio Literário. Todos os direitos reservados.</footer>
+</main>
+<script>
+  // 1) Envio do formulário para o Google Apps Script
+  const form        = document.getElementById('projectForm');
+  const submitBtn   = form.querySelector('button[type="submit"]');
+  const toast       = document.getElementById('toast');
+  const endpointURL = 'https://script.google.com/macros/s/AKfycbyyn_m7FZ2OuW_jHwK3tdDoNhgltLn9KuKNUq3jlt6FY0n642MAiFER_gI-tyma8lHK/exec';
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form));
+    data.timestamp = new Date().toISOString();
+
+    // 1) Desabilita botão e mostra carregando
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando…';
+
+    // 2) Envia ao Apps Script
+    fetch(endpointURL, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      mode: 'no-cors'
+    })
+    .then(() => {
+      // 3) Restaura botão
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Enviar';
+      form.reset();
+
+      // 4) Exibe toast de sucesso
+      toast.textContent = '✅ Projeto enviado com sucesso! Entraremos em contato em até 5 dias úteis.';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 5000);
+    })
+    .catch(err => {
+      console.error(err);
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Enviar';
+      alert('Erro ao enviar. Tente novamente mais tarde.');
+    });
+  });
+
+
+  // 2) Carrossel de serviços em loop infinito
+  const cards  = Array.from(document.querySelectorAll('.services__grid .service-card'));
+  const prevBtn = document.querySelector('.nav-btn.prev');
+  const nextBtn = document.querySelector('.nav-btn.next');
+  let current = 0;
+
+  function updateCarousel() {
+    cards.forEach((card, i) => {
+      card.classList.remove('prev','active','next');
+      if (i === current)                                   card.classList.add('active');
+      else if (i === (current - 1 + cards.length) % cards.length) card.classList.add('prev');
+      else if (i === (current + 1) % cards.length)                  card.classList.add('next');
+    });
+  }
+
+  prevBtn.addEventListener('click', () => {
+    current = (current - 1 + cards.length) % cards.length;
+    updateCarousel();
+  });
+  nextBtn.addEventListener('click', () => {
+    current = (current + 1) % cards.length;
+    updateCarousel();
+  });
+
+  // Inicializa o carrossel
+  updateCarousel();
+</script>
+
+
+
+</body>
+</html>
