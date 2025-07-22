@@ -461,6 +461,21 @@ footer {
     0 0 4px rgba(0, 0, 0, 0.6);
 }
 
+/* Centraliza o conteúdo da seção Sobre o Estúdio */
+.about_estudio {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* alinha verticalmente */
+  align-items: center;     /* alinha horizontalmente */
+  text-align: center;      /* centraliza texto */
+  padding: 4rem 2rem;      /* ajusta espaçamento interno */
+  /* já tem min-height: 100vh via section{}, garante full‑screen */
+}
+
+/* Opcional: limita largura de leitura do texto */
+.about_estudio .hero-text-below {
+  max-width: 800px;
+}
 
 
   </style>
@@ -468,10 +483,6 @@ footer {
 <body>
 <main>
 
-  <nav>
-  <img src="images/logo.webp" class="nav-logo" alt="Logo Estúdio Incidente" />
-  …  
-</nav>
 
   <!-- Hero -->
   <header class="hero" id="hero" data-tab="Sobre o Estúdio">
@@ -480,8 +491,9 @@ footer {
 
 <div class="hero-content">
   <!-- Espaço para logo + texto abaixo -->
+   <img src="images/logo.webp" alt="Estúdio Incidente" class="studio-logo" />
   <div class="hero-text-below">
-    <h1>ESTÚDIO INCIDENTE: Provocações Literárias</h1>
+    <p></p>
     <p>No Estúdio Incidente, auxiliamos autores na construção de suas obras com análises refinadas, provocações e escuta criativa. 
 
 Oferecemos os serviços essenciais para transformar um projeto literário em um livro singular e potente, fiel à visão estética de cada autor. 
@@ -491,7 +503,6 @@ Oferecemos Leitura Crítica, Oficina 1:1 e Ghostwriting. Assim, projetos em dife
 Formado por escritores experientes, tanto em criação artística, quanto em consultoria para autores. 
 
 Todo livro começa com um bom incidente… </p>
-    <button class="btn-primary" onclick="…">Conheça nossos serviços</button>
   </div>
 </div>
   </section>
