@@ -101,32 +101,47 @@ section::after {
   scroll-snap-align: none;
 }
 
-/* ===== HERO ===== */
+/* 1) Reduz altura do hero (somente imagem) */
 header.hero {
-  background: url('images/hero3.webp') center/cover no-repeat;
-    /* força a largura total */
-  width: 100%;
-  /* define uma altura fixa (ou ajuste para o valor que preferir) */
-  height: 600px;
-  /* redimensiona a imagem para preencher toda a largura, mantendo a proporção */
-  background-size: 100% auto;
-  /* centraliza verticalmente o topo da imagem */
-  background-position: top center;
+  height: 50vh;                /* ou outro valor que prefira */
+  background: url('images/hero4.webp') center/cover no-repeat;
+}
 
+/* 2) Container abaixo, centralizado */
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 3rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
 }
-.hero__text {
-  position: absolute;
-  bottom: 15%;
-  left: 5%;
-  max-width: 500px;
-  z-index: 2;
-  background: none;        /* remove qualquer fundo cinza */
+
+/* 3) Logo do estúdio */
+.studio-logo {
+  max-width: 200px;           /* ajusta conforme necessidades */
+  margin-bottom: 1.5rem;
 }
-.hero__text h1,
-.hero__text p,
-.hero__text button {
-  color: #fff;
+
+/* 4) Texto e botão */
+.hero-text-below h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--color-dark);
 }
+
+.hero-text-below p {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  color: #555;
+}
+
+.hero-text-below .btn-primary {
+  padding: 0.75rem 1.5rem;
+}
+
 /* Botão “bonitinho” no hero */
 .btn-primary {
   background: var(--color-accent);
@@ -331,6 +346,10 @@ header.hero::before {
   font-size: 2.75rem;
   margin-bottom: 2rem;
 }
+.contact h3 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
 /* Formulário em coluna única */
 .contact-form {
   display: grid;
@@ -390,6 +409,8 @@ footer {
   transform: translateX(-50%) translateY(0);
 }
 
+.nav-logo { max-height: 40px; margin-right: 1rem; }
+
 /* ===== RESPONSIVO ===== */
 /* ===== Ajustes do Hero no Mobile ===== */
 @media (max-width: 768px) {
@@ -446,23 +467,34 @@ footer {
 </head>
 <body>
 <main>
-  <!-- Navegação -->
+
   <nav>
-    <div class="logo">Estúdio Literário</div>
-    <a href="#contact" class="cta">Envie seu projeto</a>
-  </nav>
+  <img src="images/logo.webp" class="nav-logo" alt="Logo Estúdio Incidente" />
+  …  
+</nav>
 
   <!-- Hero -->
-  <header class="hero" id="hero" data-tab="Serviços">
-    <div class="hero__text">
-      <h1>Um estúdio comprometido com a criação literária de qualidade</h1>
-      <p>Feito por escritores, para escritores. Conte sua história de forma inesquecível.</p>
-      <button class="btn-primary" onclick="document.getElementById('services').scrollIntoView({ behavior: 'smooth' });">
-        Conheça nossos serviços
-      </button>
-    </div>
+  <header class="hero" id="hero" data-tab="Sobre o Estúdio">
   </header>
+  <section class="about_estudio" id="about_estudio" data-tab="Serviços">
 
+<div class="hero-content">
+  <!-- Espaço para logo + texto abaixo -->
+  <div class="hero-text-below">
+    <h1>ESTÚDIO INCIDENTE: Provocações Literárias</h1>
+    <p>No Estúdio Incidente, auxiliamos autores na construção de suas obras com análises refinadas, provocações e escuta criativa. 
+
+Oferecemos os serviços essenciais para transformar um projeto literário em um livro singular e potente, fiel à visão estética de cada autor. 
+
+Oferecemos Leitura Crítica, Oficina 1:1 e Ghostwriting. Assim, projetos em diferentes fases de criação ganham forma, voz e potência. 
+
+Formado por escritores experientes, tanto em criação artística, quanto em consultoria para autores. 
+
+Todo livro começa com um bom incidente… </p>
+    <button class="btn-primary" onclick="…">Conheça nossos serviços</button>
+  </div>
+</div>
+  </section>
   <!-- Serviços -->
   <section class="services" id="services" data-tab="Quem Somos">
     <h2>Nossos Serviços</h2>
@@ -474,19 +506,19 @@ footer {
     <!-- Grid de cards -->
     <div class="services__grid">
       <div class="service-card">
-        <img src="images/icone-consultoria.webp" alt="Consultoria Literária">
-        <h3>Consultoria Literária</h3>
-        <p>Orientação estratégica sobre estrutura, estilo e roteiro para transformar seu manuscrito em uma obra impactante.</p>
+        <img src="images/icone-consultoria.webp" alt="Oficina 1:1">
+        <h3>Oficina 1:1</h3>
+        <p>Encontros para acompanhamento e orientação com um plano de escrita de acordo com cada projeto.</p>
       </div>
       <div class="service-card">
         <img src="images/icone-ghostwriting.webp" alt="Ghostwriting">
         <h3>Ghostwriting</h3>
-        <p>Escrita profissional sob medida: damos voz às suas ideias, criando textos originais e coesos.</p>
+        <p>Produção de escrita sob medida: damos voz original às suas ideias, criando textos impactantes.</p>
       </div>
       <div class="service-card">
-        <img src="images/icone-revisao-critica.webp" alt="Revisão Crítica">
-        <h3>Revisão Crítica</h3>
-        <p>Análise aprofundada de enredo, personagens e ritmo, com feedback construtivo para aprimorar seu texto.</p>
+        <img src="images/icone-revisao-critica.webp" alt="Leitura Crítica">
+        <h3>Leitura Crítica</h3>
+        <p>Análise aprofundada da temática, forma literária, enredo, personagens e ritmo, com críticas construtivas para aprimorar seu texto.</p>
       </div>
       <div class="service-card">
         <img src="images/icone-revisao-literaria.webp" alt="Revisão Literária">
@@ -509,27 +541,24 @@ footer {
   <!-- Quem Somos -->
   <section class="about" id="about" data-tab="Envie seu Projeto">
     <h2>Quem Somos</h2>
-    <p>
-      Henrique Schlickmann e Lucas Miyazaki: mestres em letras e escritores com ampla experiência em literatura,
-      dramaturgia e roteiro. Unidos pela paixão de criar histórias que emocionam e inspiram.
-    </p>
     <div class="profiles">
       <div class="profile-card">
         <img src="images/henrique.jpg" alt="Henrique Schlickmann">
         <h3>Henrique Schlickmann</h3>
-        <p>Mestre em Escrita Criativa; 5 anos de consultoria literária; autor publicado.</p>
+        <p>Henrique Schlickmann é mestre em Escrita Criativa pela PUCRS, com atuação como escritor, dramaturgo e roteirista. Trabalha com leitura crítica, revisão e consultoria para narrativas literárias e audiovisuais.</p>
       </div>
       <div class="profile-card">
         <img src="images/lucas.jpg" alt="Lucas Miyazaki">
         <h3>Lucas Miyazaki</h3>
-        <p>Mestre em Letras; dramaturgo e roteirista; atuação em projetos teatrais e audiovisuais.</p>
+        <p>Lucas Miyazaki é autor premiado de narrativas e peças de teatro, com mais de 4 anos de experiência em consultoria literária e leitura crítica. Vencedor do Pêmio Nascente (USP) e Coelho de Ouro (Mix Brasil). Mestre em Letras pela USP.</p>
       </div>
     </div>
   </section>
 
   <!-- Contato -->
   <section class="contact" id="contact">
-    <h2>Envie seu Projeto</h2>
+    <h2>Entre em contato agora mesmo</h2>
+    <h3>Receba um orçamento sem compromisso</h3>
     <form class="contact-form" id="projectForm">
       <label>
         Nome Completo
@@ -551,9 +580,9 @@ footer {
         Tipo de Serviço
         <select name="serviceType" required>
           <option value="">Selecione</option>
-          <option value="consultoria">Consultoria Literária</option>
+          <option value="consultoria">Oficinas 1:1</option>
           <option value="ghostwriting">Ghostwriting</option>
-          <option value="revisaoCritica">Revisão Crítica</option>
+          <option value="revisaoCritica">Leitura Crítica</option>
           <option value="revisaoLiteraria">Revisão Literária</option>
           <option value="leituraSensivel">Leitura Sensível</option>
           <option value="roteiro">Roteiros para Audiovisual/Games</option>
@@ -568,7 +597,7 @@ footer {
         <textarea name="description" rows="4" required></textarea>
       </label>
       <label>
-        Link ou Upload do Manuscrito (opcional)
+        Link do Manuscrito (opcional)
         <input type="url" name="manuscriptUrl" />
       </label>
       <label>
@@ -578,7 +607,6 @@ footer {
       <button type="submit">Enviar</button>
     </form>
   </section>
-  <div id="toast"></div>
 
   <!-- Footer -->
   <footer>&copy; 2025 Estúdio Literário. Todos os direitos reservados.</footer>
